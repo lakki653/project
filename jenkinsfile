@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/yourusername/sample-web-page.git'
+                git 'https://github.com/lakki653/sample-web-page.git'
             }
         }
         stage('Build WAR') {
