@@ -1,5 +1,11 @@
-FROM ubuntu
-WORKDIR /sample
-COPY . /sample
-RUN apt update && apt install -y openjdk-17-jdk && javac Test.java
-CMD ["java", "Test"]
+# Use an official Nginx image
+FROM nginx:latest
+
+# Copy the HTML file to the Nginx server's root directory
+COPY index.html /usr/share/nginx/html/
+
+# Expose port 80 to allow access to the container
+EXPOSE 80
+
+# Start Nginx
+CMD ["nginx", "-g", "daemon off;"]
