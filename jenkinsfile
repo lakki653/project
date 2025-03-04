@@ -1,16 +1,45 @@
 pipeline {
     agent any
-
     stages {
-        stage('Git-Java') {
+        stage('Checkout') {
             steps {
-               git branch: 'main', url: 'https://github.com/lakki653/docker.git'
+                git 'https://github.com/yourusername/sample-web-page.git'
             }
         }
-        stage('Docker build and run') {
+        stage('Build WAR') {
             steps {
-               sh '''docker build -t myimage10 .
-                    docker run myimage10'''
+                script {
+                    // Assuming you use Maven to create the WAR file
+                    sh 'mvn clean package'
+                }
+            }
+        }
+        stage('Archive WAR') {
+            steps {
+                archiveArtifacts artifacts: '**/*.war', allowEmptyArchive: true
+            }
+        }
+    }
+}
+pipeline {
+    agent any
+    stages {
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/yourusername/sample-web-page.git'
+            }
+        }
+        stage('Build WAR') {
+            steps {
+                script {
+                    // Assuming you use Maven to create the WAR file
+                    sh 'mvn clean package'
+                }
+            }
+        }
+        stage('Archive WAR') {
+            steps {
+                archiveArtifacts artifacts: '**/*.war', allowEmptyArchive: true
             }
         }
     }
